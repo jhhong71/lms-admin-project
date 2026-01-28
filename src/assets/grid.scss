@@ -1,0 +1,158 @@
+/* src/assets/grid.scss */
+
+/* [디자인 테마] AG Grid Alpine 테마 커스터마이징 */
+.ag-theme-alpine {
+  /* ----------------------------------------------------------------
+     1. 색상 및 기본 변수 재정의 (Tailwind Slate/Blue 컬러 기반)
+     ---------------------------------------------------------------- */
+  --ag-foreground-color: #334155;           /* 기본 텍스트 (Slate-700) */
+  --ag-background-color: #ffffff;           /* 배경색 */
+  --ag-header-background-color: #f8fafc;    /* 헤더 배경 (Slate-50 - 아주 연한 회색) */
+  --ag-header-foreground-color: #475569;    /* 헤더 텍스트 (Slate-600) */
+  --ag-border-color: #e2e8f0;               /* 테두리 색상 (Slate-200) */
+  
+  /* 행(Row) 관련 색상 */
+  --ag-row-hover-color: #f1f5f9;            /* 마우스 오버 시 (Slate-100) */
+  --ag-selected-row-background-color: #eff6ff; /* 선택된 행 (Blue-50) */
+  --ag-row-border-color: #f1f5f9;           /* 행 구분선 (연하게) */
+  
+  /* 인터랙션 색상 */
+  --ag-checkbox-checked-color: #2563eb;     /* 체크박스 체크 시 (Blue-600) */
+  --ag-checkbox-unchecked-color: #94a3b8;   /* 체크박스 해제 시 (Slate-400) */
+  --ag-input-focus-border-color: #2563eb;   /* 입력창 포커스 */
+  --ag-range-selection-border-color: #2563eb;
+
+  /* ----------------------------------------------------------------
+     2. 폰트 및 레이아웃 설정
+     ---------------------------------------------------------------- */
+  --ag-font-size: 15px;
+  --ag-font-family: 'Noto Sans KR', sans-serif;
+  
+  /* 높이 설정 (헤더와 행 높이를 넉넉하게) */
+  --ag-header-height: 48px;
+  --ag-row-height: 48px;
+  --ag-list-item-height: 36px;
+
+  /* 컨테이너 전체 스타일 */
+  width: 100%;
+  height: 100%;
+  border-radius: 8px; /* 전체 둥근 모서리 */
+  //border: 1px solid var(--ag-border-color);
+  //box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* 미세한 그림자 */
+  overflow: hidden;
+
+  /* ----------------------------------------------------------------
+     3. 헤더(Header) 디테일 수정
+     ---------------------------------------------------------------- */
+  .ag-header {
+    border-bottom: 1px solid var(--ag-border-color);
+    font-weight: 700; /* 헤더 폰트 굵게 */
+    letter-spacing: -0.01em;
+  }
+
+  .ag-header-cell {
+    /* 헤더 사이의 세로 구분선 제거 (모던한 느낌) */
+    &::after {
+      display: none !important;
+    }
+  }
+
+  .ag-header-cell-label {
+    /* 헤더 텍스트 수직 중앙 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 가운데 정렬 */
+  }
+
+  /* ----------------------------------------------------------------
+     4. 행(Row) 및 셀(Cell) 스타일
+     ---------------------------------------------------------------- */
+  .ag-row {
+    border-bottom-width: 1px;
+    border-bottom-style: solid; 
+    border-bottom-color: var(--ag-row-border-color);
+    transition: background-color 0.15s ease;
+  }
+
+  /* 마지막 행의 테두리는 제거 */
+  .ag-row:last-child {
+    border-bottom: none;
+  }
+
+  .ag-cell {
+    display: flex;
+    align-items: center;
+    line-height: normal;
+    padding-left: 16px;
+    padding-right: 16px;
+    letter-spacing: -0.01em;
+    
+    /* 셀 선택 시 테두리 제거 (깔끔하게) */
+    &.ag-cell-focus {
+      border: none !important;
+      outline: none !important;
+    }
+
+    &[class*="pd-clamp-"]{
+      line-height: 46px !important;
+    }
+  }
+
+  .text-center {
+    justify-content: center !important;
+    
+    /* 헤더의 경우 내부 label도 정렬 */
+    .ag-header-cell-label {
+      justify-content: center !important;
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     5. 체크박스(Checkbox) 커스텀
+     ---------------------------------------------------------------- */
+  .ag-checkbox-input-wrapper {
+    width: 18px;
+    height: 18px;
+    
+    &.ag-checked {
+      &::after {
+        color: var(--ag-checkbox-checked-color);
+        font-weight: bold;
+      }
+    }
+    
+    /* 체크박스 외곽선 */
+    border-radius: 4px;
+  }
+
+  /* ----------------------------------------------------------------
+     6. 스크롤바 커스텀 (Webkit 기반 브라우저)
+     ---------------------------------------------------------------- */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+/* 뱃지(Badge) */
+.ag-cell .common-badge {
+  display: inline-block; 
+  min-width: 60px;       
+  text-align: center;    
+}
+
+/* Custom Pagenation */ 
+.custom-page{
+  min-width: 32px !important;
+  height: 32px !important;
+}

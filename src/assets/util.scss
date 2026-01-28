@@ -1,0 +1,601 @@
+@charset "UTF-8";
+
+/*
+*--------------------------------------------*
+|                   Font                     |
+*--------------------------------------------*
+*/
+
+// ✅ 외부 CDN 폰트 import (SCSS에서도 그대로 사용 가능)
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+// @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+@import url("https://cdn.jsdelivr.net/npm/@fontsource/lato@5.0.18/index.min.css");
+@import url("https://cdn.jsdelivr.net/npm/noto-sans-kr-font@0.0.6/noto-sans-kr.min.css");
+@import url("https://cdn.jsdelivr.net/npm/@noonnu/gmarketsansbold@0.0.1/index.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css");
+@import url("https://cdn.jsdelivr.net/gh/sun-typeface/SUIT/fonts/static/woff2/SUIT.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
+@import url("https://cdn.jsdelivr.net/font-nanum/1.0/nanumgothic/nanumgothic.css");
+@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+// ✅ 로컬 폰트 base path (필요시 프로젝트 구조에 맞게 변경)
+$font-path: "fonts";
+
+// ✅ font-face 공통 mixin
+// - IE용 eot + 나머지 포맷들(woff2/woff/ttf/svg) 한 번에 생성
+@mixin font-face(
+  $family,
+  $fileBase,
+  $weight: normal,
+  $style: normal,
+  $display: null,
+  $svgId: null,
+  $local: null,
+  $formats: (eot, woff2, woff, ttf, svg)
+) {
+  font-family: $family;
+
+  // local()이 필요한 케이스(Spoqa처럼) 지원
+  @if $local != null {
+    src: local(#{$local}), url("#{$font-path}/#{$fileBase}.eot");
+  } @else {
+    src: url("#{$font-path}/#{$fileBase}.eot");
+  }
+
+  // eot?#iefix + 기타 포맷
+  $srcList: ();
+  @if index($formats, eot) {
+    $srcList: append($srcList, url("#{$font-path}/#{$fileBase}.eot?#iefix") format("embedded-opentype"), comma);
+  }
+  @if index($formats, woff2) {
+    $srcList: append($srcList, url("#{$font-path}/#{$fileBase}.woff2") format("woff2"), comma);
+  }
+  @if index($formats, woff) {
+    $srcList: append($srcList, url("#{$font-path}/#{$fileBase}.woff") format("woff"), comma);
+  }
+  @if index($formats, ttf) {
+    $srcList: append($srcList, url("#{$font-path}/#{$fileBase}.ttf") format("truetype"), comma);
+  }
+  @if index($formats, svg) {
+    $id: if($svgId != null, $svgId, $fileBase);
+    $srcList: append($srcList, url("#{$font-path}/#{$fileBase}.svg##{$id}") format("svg"), comma);
+  }
+
+  src: $srcList;
+
+  font-weight: $weight;
+  font-style: $style;
+
+  @if $display != null {
+    font-display: $display;
+  }
+}
+
+/* Noto Sans KR (원본과 동일) */
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Black", 900, normal, null, "NotoSansKR-Black"); }
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Light", 300, normal, null, "NotoSansKR-Light"); }
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Bold", 700, normal, null, "NotoSansKR-Bold"); } // 원본 bold -> 700 권장
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Thin", 100, normal, null, "NotoSansKR-Thin"); }
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Medium", 500, normal, null, "NotoSansKR-Medium"); }
+@font-face { @include font-face("Noto Sans KR", "Noto_Sans_KR/NotoSansKR-Regular", 400, normal, null, "NotoSansKR-Regular"); }
+
+/* SpoqaHanSansNeo */
+@font-face {
+  @include font-face("Spoqa Han Sans Neo", "SpoqaHanSansNeo/SpoqaHanSansNeo-Thin", 100, normal, null, null, "Spoqa Han Sans Neo Thin", (eot, woff2, woff, ttf));
+}
+@font-face {
+  @include font-face("Spoqa Han Sans Neo", "SpoqaHanSansNeo/SpoqaHanSansNeo-Light", 300, normal, null, null, "Spoqa Han Sans Neo Light", (eot, woff2, woff, ttf));
+}
+@font-face {
+  @include font-face("Spoqa Han Sans Neo", "SpoqaHanSansNeo/SpoqaHanSansNeo-Regular", 400, normal, null, null, "Spoqa Han Sans Neo Regular", (eot, woff2, woff, ttf));
+}
+@font-face {
+  @include font-face("Spoqa Han Sans Neo", "SpoqaHanSansNeo/SpoqaHanSansNeo-Medium", 500, normal, null, null, "Spoqa Han Sans Neo Medium", (eot, woff2, woff, ttf));
+}
+@font-face {
+  @include font-face("Spoqa Han Sans Neo", "SpoqaHanSansNeo/SpoqaHanSansNeo-Bold", 700, normal, null, null, "Spoqa Han Sans Neo Bold", (eot, woff2, woff, ttf));
+}
+
+/* SUIT */
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Light", 300, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-ExtraBold", 800, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Bold", 700, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-ExtraLight", 200, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Medium", 500, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Heavy", 900, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Regular", 400, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-Thin", 100, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+@font-face { @include font-face("SUIT", "SUIT/SUIT-SemiBold", 600, normal, swap, null, null, (eot, woff, woff2, ttf)); }
+
+/* Poppins (일부 예시 — 동일 패턴으로 계속 추가 가능) */
+@font-face { @include font-face("Poppins", "Poppins/Poppins-BoldItalic", 700, italic, swap, "Poppins-BoldItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-ExtraBoldItalic", 800, italic, swap, "Poppins-ExtraBoldItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-ExtraBold", 800, normal, swap, "Poppins-ExtraBold"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-ExtraLightItalic", 200, italic, swap, "Poppins-ExtraLightItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-LightItalic", 300, italic, swap, "Poppins-LightItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Light", 300, normal, swap, "Poppins-Light"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Italic", 400, italic, swap, "Poppins-Italic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Medium", 500, normal, swap, "Poppins-Medium"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-ExtraLight", 200, normal, swap, "Poppins-ExtraLight"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-MediumItalic", 500, italic, swap, "Poppins-MediumItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-SemiBold", 600, normal, swap, "Poppins-SemiBold"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Regular", 400, normal, swap, "Poppins-Regular"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Black", 900, normal, swap, "Poppins-Black"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Bold", 700, normal, swap, "Poppins-Bold"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-SemiBoldItalic", 600, italic, swap, "Poppins-SemiBoldItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-BlackItalic", 900, italic, swap, "Poppins-BlackItalic"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-Thin", 100, normal, swap, "Poppins-Thin"); }
+@font-face { @include font-face("Poppins", "Poppins/Poppins-ThinItalic", 100, italic, swap, "Poppins-ThinItalic"); }
+
+/* Pretendard Variable */
+@font-face { @include font-face("Pretendard Variable", "PretendardVariable/PretendardVariable-Regular", 400, normal, swap, "PretendardVariable-Regular"); }
+
+
+// ✅ 폰트 family 유틸 (map 기반)
+$pd-font-family: (
+  pretendard: var(--Pretendard),
+  suit: var(--SUIT),
+  notosansKr: var(--notosansKr),
+  poppins: var(--Poppins),
+  spoqaHanSansNeo: var(--spoqaHanSansNeo),
+  pretendardVariable: var(--pretendardVariable),
+  saira: var(--Saira),
+  GmarketSansBold: var(--GmarketSansBold),
+  GmarketSansLight: var(--GmarketSansLight)
+);
+
+@each $name, $val in $pd-font-family {
+  .pd-#{$name} {
+    font-family: $val;
+  }
+}
+
+// ✅ font-size 유틸
+$pd-font-size: (
+  xs: 12px,
+  sm: 14px,
+  base: 16px,
+  lg: 18px,
+  xl: 20px,
+  2xl: 24px,
+  3xl: 30px,
+  4xl: 36px,
+  5xl: 48px,
+  6xl: 60px
+);
+
+@each $k, $v in $pd-font-size {
+  .pd-text-#{$k} { font-size: $v; }
+}
+
+// ✅ italic 유틸
+.pd-italic { font-style: italic; }
+.pd-not-italic { font-style: normal; }
+
+// ✅ font-weight 유틸
+$pd-font-weight: (
+  thin: 100,
+  extralight: 200,
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+  black: 900
+);
+
+@each $k, $v in $pd-font-weight {
+  .pd-font-#{$k} { font-weight: $v; }
+}
+
+/*
+*--------------------------------------------*
+|                   Form                     |
+*--------------------------------------------*
+*/
+select,
+button,
+textarea,
+input {
+  appearance: none;
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--Pretendard);
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: var(--font-let-spc);
+  color: inherit;
+  outline: 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="search"],
+input[type="number"],
+input[type="time"],
+input[type="color"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="range"],
+input[type="url"],
+input[type="week"],
+select,
+textarea {
+  width: 100%;
+  caret-color: var(--primary-500);
+}
+
+.pd-textarea { padding: 15px; }
+
+input[type="text"],
+input[type="password"],
+*::placeholder {
+  color: inherit;
+}
+
+button,
+select,
+input[type="color"],
+input[type="range"],
+input[type="reset"],
+input[type="submit"],
+input[type="button"],
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  border-radius: 50%;
+}
+
+label { display: inline-flex; }
+
+legend,
+caption {
+  position: fixed;
+  left: -100vw;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* 네이버 카페 페이지에서 쓰이는 건너뛰기 */
+a.skip {
+  position: absolute;
+  left: 0;
+  top: -30px;
+  border: 1px solid #4ec53d;
+  color: #fff;
+  text-decoration: none;
+  padding: 2px 6px 0;
+  line-height: 24px;
+  font-size: 12px;
+  background-color: #000;
+  z-index: 1200;
+  -webkit-transition: 0.3s;
+
+  &:active,
+  &:focus {
+    top: 0;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+/*
+*--------------------------------------------*
+|                   Align                    |
+*--------------------------------------------*
+*/
+.pd-text-center { text-align: center !important; }
+.pd-text-right { text-align: right !important; }
+.pd-text-left { text-align: left; }
+
+.pd-pos-ct {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.pd-k-sel-center { text-align: center !important; }
+
+/*
+*--------------------------------------------*
+|                   Breakpoint               |
+*--------------------------------------------*
+*/
+.mobile { display: none !important; }
+
+/*
+*--------------------------------------------*
+|                   Color                    |
+*--------------------------------------------*
+*/
+.col-red { color: var(--red-500) !important; }
+.col-green { color: var(--green-600); }
+.col-blue { color: var(--blue-400); }
+.col-orange { color: var(--orange-650); }
+
+/*
+*--------------------------------------------*
+|                   Line clamp               |
+*--------------------------------------------*
+*/
+[class*="pd-clamp-"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+}
+
+@for $i from 2 through 4 {
+  .pd-clamp-0#{$i} { -webkit-line-clamp: $i; }
+}
+
+.pd-clamp-none {
+  overflow: visible;
+  display: block;
+  -webkit-box-orient: horizontal;
+  -webkit-line-clamp: none;
+}
+
+/*
+*--------------------------------------------*
+|                   List                     |
+*--------------------------------------------*
+*/
+.pd-list-disc { list-style-type: disc; list-style-position: inside; }
+.pd-list-decimal { list-style-type: decimal; list-style-position: inside; }
+
+.pd-line-list {
+  display: flex;
+  align-items: center;
+
+  li {
+    position: relative;
+    padding: 0 10px;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 0;
+      width: 1px;
+      height: 15px;
+      background: #dcdcdc;
+    }
+
+    &:first-child:after { display: none; }
+  }
+}
+
+/*
+*--------------------------------------------*
+|              Space clamp / Etc             |
+*--------------------------------------------*
+*/
+[class*="pd-text-space-"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blind { position: absolute; left: -3721em; }
+.hide { display: none !important; }
+.not-hover { cursor: default; }
+
+.pd-text_break {
+  word-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap !important;
+  white-space: -o-pre-wrap !important;
+}
+
+.pd-span-info-txt {
+  font-size: 14px;
+  color: #6c757d;
+  letter-spacing: -0.28px;
+}
+
+/* text decoration */
+.pd-underline { text-decoration: underline; }
+.pd-line-through { text-decoration: line-through; }
+.pd-no-underline { text-decoration: none; }
+
+$underline-offsets: (1, 2, 4, 8);
+@each $n in $underline-offsets {
+  .pd-underline-offset-#{$n} { text-underline-offset: #{$n}px; }
+}
+
+/* text transform */
+.pd-uppercase { text-transform: uppercase; }
+.pd-normal-case { text-transform: none; }
+
+/* cursor */
+$pd-cursors: (auto, default, pointer, move, not-allowed);
+@each $c in $pd-cursors {
+  .pd-cursor-#{$c} { cursor: #{$c}; }
+}
+
+/* scroll */
+.pd-scroll-auto { scroll-behavior: auto; }
+.pd-scroll-smooth { scroll-behavior: smooth; }
+
+/* box sizing */
+.pd-box-border { box-sizing: border-box; }
+.pd-box-content { box-sizing: content-box; }
+
+/* floats */
+.pd-fl { float: left; }
+.pd-fr { float: right; }
+.pd-float-none { float: none; }
+
+/* overflow */
+$pd-overflows: (auto, hidden, visible, scroll);
+@each $o in $pd-overflows {
+  .pd-overflow-#{$o} { overflow: #{$o}; }
+}
+@each $o in $pd-overflows {
+  .pd-overflow-x-#{$o} { overflow-x: #{$o}; }
+  .pd-overflow-y-#{$o} { overflow-y: #{$o}; }
+}
+
+/*
+*--------------------------------------------*
+|                   Object                   |
+*--------------------------------------------*
+*/
+.pd-object-contain { object-fit: contain; }
+.pd-object-cover { object-fit: cover; }
+.pd-object-center { object-position: center; }
+
+/*
+*--------------------------------------------*
+|                   display                  |
+*--------------------------------------------*
+*/
+.block { display: block; }
+.inline-block { display: inline-block; }
+.dis-table { display: table; }
+
+/*
+*--------------------------------------------*
+|                   Width                    |
+*--------------------------------------------*
+*/
+.pd-w-all,
+.pd-w-full { width: 100% !important; }
+
+.pd-w-auto { width: auto; }
+.pd-w-screen { width: 100vw; }
+.pd-w-28 { width: 28%; }
+.pd-w-33 { width: 33%; }
+.pd-w-50 { width: 50%; }
+.pd-w-80 { width: 80%; }
+
+// ✅ px 너비 유틸: 10~3000 (원본 pd-w10 ~ pd-w3000 생성)
+// - 원본은 10 단위로 쭉 있었으니 그대로 생성
+@for $w from 10 through 3000 {
+  @if $w % 10 == 0 {
+    .pd-w#{$w} { width: #{$w}px; }
+  }
+}
+
+/*
+*--------------------------------------------*
+|                   Height                   |
+*--------------------------------------------*
+*/
+.pd-h-full { height: 100%; }
+.pd-h-auto { height: auto; }
+.pd-h-screen { height: 100vh; }
+.pd-h-dvh { height: 100dvh; }
+
+// ✅ px 높이 유틸: 10~300 (원본은 최소 10부터 300까지 보였음)
+// 필요하면 1~N으로 바꾸면 됨.
+@for $h from 10 through 300 {
+  .pd-h#{$h} { height: #{$h}px; }
+}
+
+/*
+*--------------------------------------------*
+|                   Size                     |
+*--------------------------------------------*
+*/
+.pd-size-full { width: 100%; height: 100%; }
+
+/*
+*--------------------------------------------*
+|                   Flex                     |
+*--------------------------------------------*
+*/
+[class*="pd-flex-"] {
+  display: flex;
+  max-width: 100%;
+  word-break: keep-all;
+}
+
+.pd-flex-inline { display: inline-flex; }
+.pd-flex-col { flex-direction: column; }
+.pd-flex-col-reverse { flex-direction: column-reverse; }
+.pd-flex-row { flex-direction: row !important; }
+.pd-flex-row-reverse { flex-direction: row-reverse; }
+.pd-flex-fix { flex: 0 0 fit-content; }
+.pd-flex-1 { flex: 1 1 0%; }
+.pd-flex-auto { flex: 0 0 auto; }
+.pd-flex-wrap { flex-wrap: wrap; }
+.pd-flex-wrap-reverse { flex-wrap: wrap-reverse; }
+.pd-flex-nowrap { flex-wrap: nowrap; }
+.pd-flex-none { flex: none; }
+
+/* Justify Content */
+.pd-space-between { justify-content: space-between; }
+.pd-space-around { justify-content: space-around; }
+.pd-justify-center { justify-content: center; }
+.pd-flex-end { justify-content: flex-end; }
+.pd-flex-start { justify-content: flex-start; }
+
+/* align Content */
+.pd-align-content-center { align-content: center; }
+.pd-align-content-start { align-content: flex-start; }
+.pd-align-content-end { align-content: flex-end; }
+.pd-align-content-between { align-content: space-between; }
+.pd-align-content-around { align-content: space-around; }
+
+/* align items */
+.pd-align-center { align-items: center; }
+.pd-align-end { align-items: flex-end; }
+.pd-align-start { align-items: flex-start; }
+
+.pd-flex-all-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.pd-flex-shrink-0 { flex-shrink: 0 !important; }
+.pd-flex-show { display: flex; }
+.pd-flex-inline-show { display: inline-flex; }
+
+/* Gap (1~100px) */
+@for $g from 1 through 100 {
+  .pd-gap#{$g} { gap: #{$g}px; }
+}
+
+/*
+*--------------------------------------------*
+|                   Margin                   |
+*--------------------------------------------*
+*/
+.pd-m-auto { margin: 0 auto; }
+.pd-margin0 { margin: 0 !important; }
+.pd-my0 { margin-top: 0 !important; margin-bottom: 0 !important; }
+.pd-mx0 { margin-left: 0 !important; margin-right: 0 !important; }
+.pd-mt0 { margin-top: 0 !important; }
+
+// ✅ my(세로 마진) 1~100px
+@for $n from 1 through 100 {
+  .pd-my#{$n} { margin-top: #{$n}px; margin-bottom: #{$n}px; }
+  .pd-mx#{$n} { margin-left: #{$n}px; margin-right: #{$n}px; }
+  .pd-mt#{$n} { margin-top: #{$n}px; }
+  .pd-mb#{$n} { margin-bottom: #{$n}px; }
+  .pd-ml#{$n} { margin-left: #{$n}px; }
+  .pd-mr#{$n} { margin-right: #{$n}px; }
+}
