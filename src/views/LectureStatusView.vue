@@ -99,7 +99,7 @@
       </v-row>
     </v-card-item>
 
-    <v-card-text class="flex-grow-1 pa-5 pt-0 d-flex flex-column" style="min-height: 0;">
+    <v-card-text class="flex-grow-1 pa-5 pt-0 d-flex flex-column" style="min-height: 500px;">
       <div class="d-flex justify-space-between align-center mb-4">
         <div class="d-flex text-grey-darken-1">
           검색 결과: <strong class="text-primary ml-1">{{ rowData.length }}</strong>건
@@ -115,8 +115,8 @@
       <div ref="gridContainer" class="ag-theme-alpine w-100 flex-grow-1"></div>
 
       <!-- Custom Pagination -->
-      <div class="d-flex justify-space-between align-center pt-4 gap-1">
-        <div style="width: 100px;">
+      <div class="d-flex justify-center justify-sm-space-between align-center pt-4">
+        <div style="width: 100px;" class="d-none d-sm-block">
           <v-select
             v-model="pageSize"
             :items="[10, 15, 20, 50, 100]"
@@ -140,7 +140,7 @@
         <v-btn icon="mdi-chevron-double-right" variant="outlined" size="x-small" color="grey" class="custom-page rounded" :disabled="currentPage === totalPages" @click="onBtnLast" />
         </div>
 
-        <div style="width: 140px;"></div>
+        <div style="width: 100px;" class="d-none d-sm-block"></div>
       </div>
     </v-card-text>
   </v-card>
@@ -174,7 +174,7 @@ const onExportClick = () => {
 const rowData = ref<any[]>([]);
 const currentPage = ref(1);
 const totalPages = ref(1);
-const pageSize = ref(15);
+const pageSize = ref(20);
 
 const gridOptions: GridOptions = {
   columnDefs: [
@@ -200,7 +200,7 @@ const gridOptions: GridOptions = {
   ],
   defaultColDef: { sortable: true, filter: true, resizable: true },
   pagination: true,
-  paginationPageSize: 15,
+  paginationPageSize: 20,
   suppressPaginationPanel: true,
   onPaginationChanged: () => {
     if (gridApi.value) {
@@ -219,7 +219,7 @@ const onBtnPage = (page: number) => gridApi.value?.paginationGoToPage(page - 1);
 // 페이지 사이즈 변경 핸들러
 const onPageSizeChange = (newSize: number) => {
   if (gridApi.value) {
-    gridApi.value.paginationSetPageSize(newSize);
+    gridApi.value.setGridOption('paginationPageSize', Number(newSize));
   }
 };
 
