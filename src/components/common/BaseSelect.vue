@@ -1,6 +1,6 @@
 <template>
   <v-select
-    :model-value="modelValue"
+    v-model="model"
     :items="items"
     :label="label"
     variant="outlined"
@@ -8,18 +8,22 @@
     hide-details="auto"
     bg-color="white"
     color="primary"
-    @update:model-value="$emit('update:modelValue', $event)"
   ></v-select>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   modelValue: any;
   items: any[];
   label?: string;
 }>();
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+});
 </script>

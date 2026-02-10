@@ -11,90 +11,65 @@
       <v-row dense class="bg-grey-lighten-4 pa-4 rounded border">
         <!-- 1. 개설 연도 -->
         <v-col cols="12" sm="6" md="2">
-          <v-select 
+          <BaseSelect 
             v-model="search.year" 
             :items="['전체', '2025', '2024', '2023']" 
-            label="개설 연도"
-            hide-details
-            bg-color="white"
-            density="compact"
-            variant="outlined"
-            color="primary"
+            label="개설 연도" 
           />
         </v-col>
 
         <!-- 2. 학기 -->
         <v-col cols="12" sm="6" md="2">
-          <v-select 
+          <BaseSelect 
             v-model="search.sem" 
             :items="['전체', '1학기', '2학기', '여름학기', '겨울학기']" 
-            label="학기"
-            hide-details
-            bg-color="white"
-            density="compact"
-            variant="outlined"
-            color="primary"
+            label="학기" 
           />
         </v-col>
 
         <!-- 3. 이수 구분 -->
         <v-col cols="12" sm="6" md="2">
-          <v-select 
+          <BaseSelect 
             v-model="search.type" 
             :items="['전체', '전공필수', '전공선택', '교양']" 
-            label="이수 구분"
-            hide-details
-            bg-color="white"
-            density="compact"
-            variant="outlined"
-            color="primary"
+            label="이수 구분" 
           />
         </v-col>
 
-        <!-- 4. 검색어 (너비 5 -> 4로 축소) -->
+        <!-- 4. 검색어 -->
         <v-col cols="12" md="4">
-          <v-text-field 
-            v-model="search.keyword"
+          <BaseSearch 
+            v-model="search.keyword" 
             label="검색어 (강의명/교수명)" 
-            prepend-inner-icon="mdi-magnify" 
-            single-line 
-            clearable
-            hide-details
-            bg-color="white"
-            density="compact"
-            variant="outlined"
-            color="primary"
-            @keyup.enter="fetchData" 
-            @click:clear="fetchData"
+            @search="fetchData" 
           />
         </v-col>
 
         <!-- 5. 초기화 버튼 -->
         <v-col cols="6" md="1">
-          <v-btn 
-            prepend-icon="mdi-refresh"
+          <BaseButton 
+            prepend-icon="mdi-refresh" 
             color="grey-darken-1" 
-            variant="outlined"
+            variant="outlined" 
             block 
             height="40" 
-            class="font-weight-bold bg-white"
+            customClass="font-weight-bold bg-white"
             @click="resetSearch"
           >
             초기화
-          </v-btn>
+          </BaseButton>
         </v-col>
 
         <!-- 6. 조회 버튼 -->
         <v-col cols="6" md="1">
-          <v-btn 
+          <BaseButton 
             color="primary" 
             block 
             height="40" 
-            class="font-weight-bold"
             @click="fetchData"
           >
             조회
-          </v-btn>
+          </BaseButton>
         </v-col>
       </v-row>
     </v-card-item>
@@ -149,6 +124,9 @@
 <script setup lang="ts">
 import { ref, onMounted, shallowRef } from 'vue';
 import { createGrid, type GridOptions, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import BaseSelect from '../components/common/BaseSelect.vue';
+import BaseSearch from '../components/common/BaseSearch.vue';
+import BaseButton from '../components/common/BaseButton.vue';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 

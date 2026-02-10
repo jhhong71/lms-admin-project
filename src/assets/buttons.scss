@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.v-btn{
+  &.v-btn--size-small {
+    font-size: 0.85rem !important; 
+    letter-spacing: normal;
+  }
+
+  .v-btn__prepend{
+    margin-right: 2px !important;
+  }
+}

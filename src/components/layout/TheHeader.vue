@@ -30,7 +30,7 @@
       <div class="h-6 w-px bg-gray-200 mx-2"></div>
       <div class="d-flex align-center cursor-pointer">
         <div class="text-right mr-3 d-none d-sm-block">
-          <div class="text-subtitle-2 font-weight-bold text-slate-800">김교수</div>
+          <div class="text-subtitle-2 font-weight-bold text-slate-800">홍교수</div>
           <div class="text-caption text-grey">컴퓨터공학과</div>
         </div>
         <v-avatar color="blue-lighten-5" size="40" class="border border-blue-100">
